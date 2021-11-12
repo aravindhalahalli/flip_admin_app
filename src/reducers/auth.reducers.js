@@ -1,33 +1,38 @@
-import { authConstants, authConstatnts } from "../actions/constants";
+import { authConstatnts } from "../actions/constants";
 
 const initState = {
-name : "Aravind Kumar"
-//   token: null,
-//   user: {
-//     firstName: "",
-//     lastName: "",
-//     email: "",
-//     picture: "",
-//   },
-//   authenticate: false,
-//   authenticating: false,
-//   loading: false,
-//   error: null,
-//   message: "",
+  token: null,
+  user: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    picture: "",
+  },
+  authenticate: false,
+  authenticating: false,
+  loading: false,
+  error: null,
+  message: "",
 };
 
 const authReducers = (state = initState, action) => {
   console.log(action);
-  
-  switch(action.type) {
-      case authConstatnts.LOGIN_REQUEST:
-          state={
-              ...state,
-              ...action.payload 
-          }
-          break;
-        default:
-            return state;
+
+  switch (action.type) {
+    case authConstatnts.LOGIN_REQUEST:
+      state = { ...state, authenticating: true};
+      break;
+    case authConstatnts.LOGIN_SUCCESS:
+      state = {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token,
+        authenticate: true,
+        authenticating:false
+      };
+      break;
+    default:
+      return state;
   }
   return state;
 };

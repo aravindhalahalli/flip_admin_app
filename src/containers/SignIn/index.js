@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layouts";
 import Input from "../../components/UI/Input";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
-import { login } from "../../actions";
-import { useDispatch } from "react-redux";
-
+import { isUserLoggedIn, login } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 const SignIn = () => {
+  const auth = useSelector((state) => state.auth);
+  console.log("auth", auth);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const [error, setError] = useState("");
 
-  const userLogin = (e) =>{
-    e.preventDefault();
-    const user = {
-      email: "chethankn@gmail.com", 
-      password: "123123"
+  useEffect(()=>{
+    if(!auth.authenticate){
+      dispatch(isUserLoggedIn());
     }
+  },[])
+
+  const userLogin = (e) => {
+    e.preventDefault();
+    const user = { email, password };
     dispatch(login(user));
+  };
+
+  if (auth.authenticate) {
+    return <Redirect to={`/`} />;
   }
+
   return (
     <Layout>
       <Row style={{ marginTop: "50px" }}>
@@ -42,6 +52,7 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="primary" type="submit">
+              {" "}
               Submit
             </Button>
           </Form>
