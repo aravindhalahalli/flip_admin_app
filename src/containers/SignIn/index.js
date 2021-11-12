@@ -1,17 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layouts";
-import Input from '../../components/UI/Input';
+import Input from "../../components/UI/Input";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 
+import { login } from "../../actions";
+import { useDispatch } from "react-redux";
+
 const SignIn = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState('');
+  
+  const [error, setError] = useState("");
+
+  const userLogin = (e) =>{
+    e.preventDefault();
+    const user = {
+      email: "chethankn@gmail.com", 
+      password: "123123"
+    }
+    dispatch(login(user));
+  }
   return (
     <Layout>
       <Row style={{ marginTop: "50px" }}>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form>
+          <Form onSubmit={userLogin}>
             <Input
               label="Email"
               placeholder="Email"
@@ -26,12 +41,14 @@ const SignIn = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button variant="primary" type="submit">Submit</Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
           </Form>
         </Col>
       </Row>
     </Layout>
-  )
-}
+  );
+};
 
 export default SignIn;
