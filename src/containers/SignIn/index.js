@@ -3,12 +3,11 @@ import Layout from "../../components/Layouts";
 import Input from "../../components/UI/Input";
 import { Form, Row, Col, Button } from "react-bootstrap";
 
-import { isUserLoggedIn, login } from "../../actions";
+import {login } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 const SignIn = () => {
   const auth = useSelector((state) => state.auth);
-  console.log("auth", auth);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -16,11 +15,11 @@ const SignIn = () => {
 
   const [error, setError] = useState("");
 
-  useEffect(()=>{
-    if(!auth.authenticate){
-      dispatch(isUserLoggedIn());
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(!auth.authenticate){
+  //     dispatch(isUserLoggedIn());
+  //   }
+  // },[])
 
   const userLogin = (e) => {
     e.preventDefault();

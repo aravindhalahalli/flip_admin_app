@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import Layout from "../../components/Layouts";
 import Input from "../../components/UI/Input";
+import { signup } from "../../actions";
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -9,12 +12,27 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    const auth = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    const userSignup = (e)=>{
+      e.preventDefault();
+      const user = {firstName,lastName,email,password}; 
+      dispatch(signup(user));
+    }
+
+    if (auth.authenticate) {
+      return <Redirect to={`/`} />;
+    }
+
+
   return (
     <Layout>
       <Container>
         <Row style={{ marginTop: "50px" }}>
           <Col md={{ span: 6, offset: 3 }}>
-            <Form>
+            <Form onSubmit={userSignup}>
               <Row>
                 <Col md={6}>
                   <Input

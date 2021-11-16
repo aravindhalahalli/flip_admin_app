@@ -1,6 +1,7 @@
 import axios from "../helpers/axios";
 import { authConstatnts } from "./constants";
 
+//login action
 export const login = (user) => {
   console.log(user);
   return async (dispatch) => {
@@ -23,6 +24,7 @@ export const login = (user) => {
   }
 }
 
+//check loggedIn ?? action 
 export const isUserLoggedIn = () =>{
     return async dispatch =>{
         const token = localStorage.getItem('token');
@@ -33,4 +35,14 @@ export const isUserLoggedIn = () =>{
             dispatch ({type:authConstatnts.LOGIN_FAILURE, payload:{error:'Failed to login'}})
         }
     }
+}
+
+//signout action
+export const signout =() =>{
+  return async dispatch =>{
+    localStorage.clear();
+    dispatch({
+      type:authConstatnts.LOGOUT_REQUEST
+    });
+  }
 }
