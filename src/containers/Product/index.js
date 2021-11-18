@@ -1,11 +1,12 @@
 import React from "react";
 import Layout from "../../components/Layouts";
 
-const Home = () => {
+const Product = () => {
   return (
     <Layout sidebar>
+      <div>Welcomr tp product</div>
     </Layout>
   );
 };
 
-export default Home;
+export default Product;

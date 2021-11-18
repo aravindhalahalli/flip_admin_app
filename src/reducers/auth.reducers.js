@@ -33,7 +33,20 @@ const authReducers = (state = initState, action) => {
       break;
     case authConstatnts.LOGOUT_REQUEST:
       state = {
+        ...state,
+        loading:true
+      }
+      break;
+    case authConstatnts.LOGOUT_SUCCESS:
+      state = {
         ...initState
+      }
+      break;
+    case authConstatnts.LOGOUT_FAILURE:
+      state = {
+        ...state,
+        error:action.payload.error,
+        loading:false
       }
       break;
     default:

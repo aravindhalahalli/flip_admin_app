@@ -3,7 +3,7 @@ import { authConstatnts } from "./constants";
 
 //login action
 export const login = (user) => {
-  console.log(user);
+  // console.log(user);
   return async (dispatch) => {
     //Request
     dispatch({ type: authConstatnts.LOGIN_REQUEST });
@@ -40,9 +40,18 @@ export const isUserLoggedIn = () =>{
 //signout action
 export const signout =() =>{
   return async dispatch =>{
-    localStorage.clear();
-    dispatch({
-      type:authConstatnts.LOGOUT_REQUEST
-    });
+    // Request
+    dispatch({ type: authConstatnts.LOGOUT_REQUEST });
+    
+    //Success
+    const res = await axios.post(`/admin/signout`);
+    if (res.status === 200) {
+      localStorage.clear();
+      dispatch({type:authConstatnts.LOGOUT_SUCCESS});
+    }
+    //Failure
+    else {
+      dispatch ({type:authConstatnts.LOGOUT_FAILURE, payload:{error:res.data.error}})
+    }
   }
 }

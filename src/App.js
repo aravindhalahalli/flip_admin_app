@@ -7,6 +7,8 @@ import Home from "./containers/Home";
 import SignIn from "./containers/SignIn";
 import SignUp from "./containers/SignUp";
 import PrivateRoute from "./components/HOC/PrivateRoute";
+import Product from "./containers/Product";
+import Order from "./containers/Order";
 
 
 function App() {
@@ -21,6 +23,9 @@ function App() {
     <div className="App">
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute  path="/products" component={Product} />
+        <PrivateRoute  path="/orders" component={Order} />
+
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
       </Switch>
