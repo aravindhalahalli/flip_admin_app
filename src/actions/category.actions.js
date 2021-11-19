@@ -47,5 +47,5 @@ export const addCategory = (form) => {
   
       // console.log(res);
     };
-  };
+};
 

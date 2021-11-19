@@ -6,6 +6,33 @@ const initState = {
   error: null,
 };
 
+const buildNewCategories = (parentId,categories,category)=>{
+let mycategories = [];
+for (let cat of categories){
+
+// mobileid and parent are matching here..
+  if(cat._id === parentId){
+    mycategories.push({
+      ...cat,
+      children:cat.children && cat.children.length > 0 ? buildNewCategories(parentId,[...cat.children,{
+        _id:category._id,
+        name:category.name,
+        slug:category.slug,
+        parentId:category.parentId,
+        children:category.children
+      }],category): []
+    })
+  }else{
+    mycategories.push({
+      ...cat,
+      children:cat.children && cat.children.length > 0 ? buildNewCategories(parentId,[cat.children],category): []
+    })
+  }
+
+}
+return mycategories;
+}
+
 const categoryReducers = (state = initState, action) => {
     console.log(action);
   switch (action.type) {
@@ -22,8 +49,12 @@ const categoryReducers = (state = initState, action) => {
         }
         break;
     case categoryConstants.ADD_NEW_CATEGORIES_SUCCESS:
+        const category = action.payload.category;
+        const updatedCategories = buildNewCategories(category.parentId,state.categories,category);
+        console.log("Updated Categoies", updatedCategories)
         state = {
             ...state,
+            categories:updatedCategories,
             loading:false
         }
         break;
